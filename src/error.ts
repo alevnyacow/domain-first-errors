@@ -3,7 +3,7 @@ import type { ErrorProps, PlainPrimitivesObject } from './types';
 
 export const defineErrorClass = <
     Details extends PlainPrimitivesObject = PlainPrimitivesObject,
-    AdditionalMetadata extends PlainPrimitivesObject = {}
+    AdditionalMetadata extends PlainPrimitivesObject = PlainPrimitivesObject
 >(
     metadata: AdditionalMetadata & { code: string },
     errorProps: ErrorProps<AdditionalMetadata & { code: string }, Details> = {
