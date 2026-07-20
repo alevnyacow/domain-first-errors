@@ -1,0 +1,6 @@
+## [1.0.2](https://github.com/alevnyacow/domain-first-errors/compare/v1.0.1...v1.0.2) (2026-07-20)
+
+
+### Bug Fixes
+
+* added .releaserc.json, fixed logo colour ([c850ceb](https://github.com/alevnyacow/domain-first-errors/commit/c850ceb98b98dbc8672d7e25af02dbf5586b2eda))
