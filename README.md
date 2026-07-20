@@ -51,6 +51,7 @@ const err = new RegistrationOnExistingEmailError(
     // cause can be passed in any error
     { cause: 42 },
 );
+
 console.log(err);
 
 /**
