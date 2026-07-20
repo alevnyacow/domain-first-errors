@@ -1,5 +1,9 @@
 <p align="center">
-    <img src='https://raw.githubusercontent.com/alevnyacow/domain-first-errors/refs/heads/main/logo.svg?sanitize=true'></img>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/alevnyacow/domain-first-errors/refs/heads/main/logo-dark-theme.svg?sanitize=true">
+  <img src='https://raw.githubusercontent.com/alevnyacow/domain-first-errors/refs/heads/main/logo.svg?sanitize=true'>
+</picture>
+
 </p>
 
 <p align="center">
