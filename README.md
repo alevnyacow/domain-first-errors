@@ -64,7 +64,7 @@ console.log(err);
  */
 ```
 
-### With additional metadata
+### With additional metadata contract
 
 ```ts
 import { defineErrorClass } from "@domain-first/errors";
@@ -114,13 +114,15 @@ console.log(errWithCustomName);
  */
 ```
 
-### With unknown details
+### With unknown details and metadata
 
 ```ts
 import { defineErrorClass } from "@domain-first/errors";
 
 const ErrorWithUnknownDetails = defineErrorClass({
     code: "DUMMY_ERROR_02",
+    stringField: "string field",
+    booleanField: true,
 });
 
 const err = new ErrorWithUnknownDetails({
