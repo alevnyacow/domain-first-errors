@@ -3,6 +3,16 @@
     "description": "Strongly typed domain errors that remain identifiable across application boundaries",
     "version": "0.0.7",
     "license": "MIT",
+    "keywords": [
+        "errors",
+        "domain errors",
+        "error",
+        "domain error",
+        "exceptions",
+        "domain-first",
+        "ddd",
+        "domain-driven"
+    ],
     "type": "module",
     "exports": {
         ".": {
@@ -32,7 +42,11 @@
         "@rslib/core": "^0.23.2",
         "@rstest/adapter-rslib": "^0.10.6",
         "@rstest/core": "^0.10.6",
+        "@semantic-release/changelog": "^6.0.3",
+        "@semantic-release/git": "^10.0.1",
+        "@semantic-release/npm": "^13.1.5",
         "@types/node": "^24.13.2",
+        "semantic-release": "^25.0.8",
         "typescript": "^6.0.3"
     }
 }
