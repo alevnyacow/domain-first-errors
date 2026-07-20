@@ -13,11 +13,11 @@
   <img src="https://img.shields.io/npm/l/%40domain-first%2Ferrors" alt="license">
 </p>
 
-## Motivation
+# Motivation
 
 In Domain-Driven Design, domain errors are part of the domain model, yet they are often treated as generic exceptions or untyped payloads. Serialized native `Error` objects lose their runtime identity after crossing process boundaries, making `instanceof` unreliable. Domain-First Errors let you define strongly typed domain errors that remain identifiable both as runtime instances and as serialized objects.
 
-## About
+# About
 
 A utility for defining strongly typed domain errors that remain identifiable across application boundaries. Every defined error extends the native `Error` class, supports native Error causes and has:
 
@@ -29,11 +29,11 @@ This makes errors easy to serialize, transport between layers, and recognize. Ev
 - `is` for runtime instances;
 - `matches` for serialized or transported errors.
 
-## Examples
+# Examples
 
-### Defining
+## Defining
 
-#### With details contract
+### With details contract
 
 ```ts
 import { defineErrorClass } from "@domain-first/errors";
@@ -63,7 +63,7 @@ console.log(err);
  */
 ```
 
-#### With additional metadata
+### With additional metadata
 
 ```ts
 import { defineErrorClass } from "@domain-first/errors";
@@ -81,7 +81,7 @@ const ErrorWithAdditionalMetadata = defineErrorClass<
 >({ code: "DUMMY_ERROR_00", retryable: false, critical: true });
 ```
 
-#### With custom error name and message
+### With custom error name and message
 
 ```ts
 import { defineErrorClass } from "@domain-first/errors";
@@ -113,7 +113,7 @@ console.log(errWithCustomName);
  */
 ```
 
-#### With unknown details
+### With unknown details
 
 ```ts
 import { defineErrorClass } from "@domain-first/errors";
@@ -130,9 +130,9 @@ const err = new ErrorWithUnknownDetails({
 });
 ```
 
-### Identifying
+## Identifying
 
-#### Checking instance with `is`
+### Checking instance with `is`
 
 ```ts
 import { RegistrationOnExistingEmailError } from "./errors";
@@ -149,7 +149,7 @@ const register = () => {
 };
 ```
 
-#### Matching serialized errors with `matches`
+### Matching serialized errors with `matches`
 
 ```ts
 import { RegistrationOnExistingEmailError } from "@/errors";
@@ -167,7 +167,7 @@ const register = async (email: string) => {
 };
 ```
 
-## Glossary
+# Glossary
 
 | Term     | Definition                                                                                                                                                                             |
 | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
