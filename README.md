@@ -1,6 +1,5 @@
 <p align="center">
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/alevnyacow/domain-first-errors/refs/heads/main/logo-dark-theme.svg?sanitize=true">
   <img src='https://raw.githubusercontent.com/alevnyacow/domain-first-errors/refs/heads/main/logo.svg?sanitize=true'>
 </picture>
 
