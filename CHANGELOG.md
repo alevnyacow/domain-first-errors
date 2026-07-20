@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/alevnyacow/domain-first-errors/compare/v1.2.1...v1.2.2) (2026-07-20)
+
+
+### Bug Fixes
+
+* Added `cause` support in README ([9ae18bc](https://github.com/alevnyacow/domain-first-errors/commit/9ae18bc18c695cb2f56411a45d5c4bc6d9dd2d3b))
+
 ## [1.2.1](https://github.com/alevnyacow/domain-first-errors/compare/v1.2.0...v1.2.1) (2026-07-20)
 
 
