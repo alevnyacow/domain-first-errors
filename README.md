@@ -19,7 +19,7 @@ In Domain-Driven Design, domain errors are part of the domain model, yet they ar
 
 ## About
 
-A utility for defining strongly typed domain errors that remain identifiable across application boundaries. Every defined error extends the native `Error` class and has:
+A utility for defining strongly typed domain errors that remain identifiable across application boundaries. Every defined error extends the native `Error` class, supports native Error causes and has:
 
 - metadata describing the error type;
 - details describing a specific instance.
@@ -44,17 +44,21 @@ const RegistrationOnExistingEmailError = defineErrorClass<Details>({
     code: "REGISTRATION_ON_EXISTING_EMAIL",
 });
 
-const err = new RegistrationOnExistingEmailError({
-    email: "hello@test.test",
-});
-
+const err = new RegistrationOnExistingEmailError(
+    {
+        email: "hello@test.test",
+    },
+    // cause can be passed in any error
+    { cause: 42 },
+);
 console.log(err);
 
 /**
  * REGISTRATION_ON_EXISTING_EMAIL: {"email":"hello@test.test"}
   ...stack
   details: { email: 'hello@test.test' },
-  metadata: { code: 'REGISTRATION_ON_EXISTING_EMAIL' }
+  metadata: { code: 'REGISTRATION_ON_EXISTING_EMAIL' },
+  [cause]: 42
 }
  */
 ```
