@@ -2,15 +2,12 @@ import { detailsFromUnknownData } from './details-from-unknown-data';
 import type { ErrorProps, PlainPrimitivesObject } from './types';
 
 export const defineErrorClass = <
-    Details = unknown,
+    Details extends PlainPrimitivesObject = PlainPrimitivesObject,
     AdditionalMetadata extends PlainPrimitivesObject = {}
 >(
     metadata: AdditionalMetadata & { code: string },
     errorProps: ErrorProps<AdditionalMetadata & { code: string }, Details> = {
-        message: (details) =>
-            typeof details === 'object'
-                ? JSON.stringify(details)
-                : String(details),
+        message: (details) => JSON.stringify(details),
         name: (metadata) => metadata.code
     }
 ) => {

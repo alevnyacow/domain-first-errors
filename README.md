@@ -1,8 +1,7 @@
 <p align="center">
-<picture>
-  <img src='https://raw.githubusercontent.com/alevnyacow/domain-first-errors/refs/heads/main/logo.svg?sanitize=true'>
-</picture>
-
+    <picture>
+        <img src='https://raw.githubusercontent.com/alevnyacow/domain-first-errors/refs/heads/main/logo.svg?sanitize=true'>
+    </picture>
 </p>
 
 <p align="center">
