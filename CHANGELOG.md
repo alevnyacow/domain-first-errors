@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/alevnyacow/domain-first-errors/compare/v1.2.4...v1.3.0) (2026-07-20)
+
+
+### Features
+
+* PlainPrimitivesObject as default for AdditionalMetadata type ([5537003](https://github.com/alevnyacow/domain-first-errors/commit/5537003ac7c38d77f7709681c5e2d307555d61f2))
+
 ## [1.2.4](https://github.com/alevnyacow/domain-first-errors/compare/v1.2.3...v1.2.4) (2026-07-20)
 
 
