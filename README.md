@@ -13,6 +13,49 @@
   <img src="https://img.shields.io/npm/l/%40domain-first%2Ferrors" alt="license">
 </p>
 
+# Installation
+
+```
+npm i @domain-first/errors
+```
+
+# Quick Start
+
+```ts
+import { defineErrorClass } from "@domain-first/errors";
+
+// Define an error class
+const IncorrectPasswordError = defineErrorClass<{
+    login: string;
+}>({
+    code: "INCORRECT_PASSWORD",
+});
+
+// Throw and identify it
+try {
+    throw new IncorrectPasswordError({
+        login: "test-login",
+    });
+} catch (e: unknown) {
+    if (IncorrectPasswordError.is(e)) {
+        console.log(`Incorrect password (${e.details.login})`);
+    }
+}
+
+// Recognize a serialized error
+const error = new IncorrectPasswordError({
+    login: "test-login",
+});
+
+const transportedError = {
+    metadata: error.metadata,
+};
+
+if (IncorrectPasswordError.matches(transportedError)) {
+    console.log("Incorrect password");
+}
+```
+
 # Motivation
 
 In Domain-Driven Design, domain errors are part of the domain model, yet they are often treated as generic exceptions or untyped payloads. Serialized native `Error` objects lose their runtime identity after crossing process boundaries, making `instanceof` unreliable. Domain-First Errors let you define strongly typed domain errors that remain identifiable both as runtime instances and as serialized objects.
