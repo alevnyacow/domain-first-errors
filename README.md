@@ -1,4 +1,10 @@
-# Domain-First Errors
+<p align="center">
+    <img src='https://raw.githubusercontent.com/alevnyacow/domain-first-errors/refs/heads/main/logo.svg?sanitize=true'></img>
+</p>
+
+<p align="center">
+    Strongly typed domain errors that remain identifiable across application boundaries.
+</p>
 
 ## Motivation
 
