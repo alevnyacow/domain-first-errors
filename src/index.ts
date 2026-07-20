@@ -1,0 +1,1 @@
+export { defineErrorClass } from './error';
