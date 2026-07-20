@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/alevnyacow/domain-first-errors/compare/v1.1.0...v1.2.0) (2026-07-20)
+
+
+### Features
+
+* Plain objects in message by default ([7ac5346](https://github.com/alevnyacow/domain-first-errors/commit/7ac534687cd434dcb8a29166a2ba0fc4080a7215))
+
 # [1.1.0](https://github.com/alevnyacow/domain-first-errors/compare/v1.0.2...v1.1.0) (2026-07-20)
 
 
