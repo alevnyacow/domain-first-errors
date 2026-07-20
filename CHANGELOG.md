@@ -1,3 +1,10 @@
+## [1.2.3](https://github.com/alevnyacow/domain-first-errors/compare/v1.2.2...v1.2.3) (2026-07-20)
+
+
+### Bug Fixes
+
+* Headers in README ([24f4654](https://github.com/alevnyacow/domain-first-errors/commit/24f4654e138b76916e815fbe86e74b214d91bdaf))
+
 ## [1.2.2](https://github.com/alevnyacow/domain-first-errors/compare/v1.2.1...v1.2.2) (2026-07-20)
 
 
