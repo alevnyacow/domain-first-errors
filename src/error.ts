@@ -7,7 +7,7 @@ export const defineErrorClass = <
 >(
     metadata: AdditionalMetadata & { code: string },
     errorProps: ErrorProps<AdditionalMetadata & { code: string }, Details> = {
-        message: (details) => JSON.stringify(details),
+        message: (details) => JSON.stringify(detailsFromUnknownData(details)),
         name: (metadata) => metadata.code
     }
 ) => {
