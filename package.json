@@ -1,7 +1,7 @@
 {
     "name": "@domain-first/errors",
     "description": "Strongly typed domain errors that remain identifiable across application boundaries",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "repository": {
         "type": "git",
         "url": "https://github.com/alevnyacow/domain-first-errors.git"

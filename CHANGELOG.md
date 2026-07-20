@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/alevnyacow/domain-first-errors/compare/v1.2.0...v1.2.1) (2026-07-20)
+
+
+### Bug Fixes
+
+* Added badges ([8421712](https://github.com/alevnyacow/domain-first-errors/commit/84217123dc0d44f3b71afaeb7e12c9edde77e022))
+
 # [1.2.0](https://github.com/alevnyacow/domain-first-errors/compare/v1.1.0...v1.2.0) (2026-07-20)
 
 
