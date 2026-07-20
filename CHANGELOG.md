@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/alevnyacow/domain-first-errors/compare/v1.3.1...v1.4.0) (2026-07-20)
+
+
+### Features
+
+* Added Installation and Quick Start sections in README ([87cd646](https://github.com/alevnyacow/domain-first-errors/commit/87cd646695440ff715e45edda83bdf60fdb5a676))
+
 ## [1.3.1](https://github.com/alevnyacow/domain-first-errors/compare/v1.3.0...v1.3.1) (2026-07-20)
 
 
