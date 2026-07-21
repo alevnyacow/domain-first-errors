@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/alevnyacow/domain-first-errors/compare/v1.4.0...v1.5.0) (2026-07-21)
+
+
+### Features
+
+* Added `serialized`, `serializedWithNativeData` and `serializedFull` ([221a1f7](https://github.com/alevnyacow/domain-first-errors/commit/221a1f73906b0aaa3695e8674c06449e83f35b84))
+
 # [1.4.0](https://github.com/alevnyacow/domain-first-errors/compare/v1.3.1...v1.4.0) (2026-07-20)
 
 
