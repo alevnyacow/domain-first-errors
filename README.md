@@ -156,7 +156,7 @@ console.log(errWithCustomName);
  */
 ```
 
-### With unknown details and metadata
+### With dynamic details and metadata
 
 ```ts
 import { defineErrorClass } from "@domain-first/errors";
