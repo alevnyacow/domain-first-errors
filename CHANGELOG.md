@@ -1,3 +1,10 @@
+## [1.5.1](https://github.com/alevnyacow/domain-first-errors/compare/v1.5.0...v1.5.1) (2026-07-21)
+
+
+### Bug Fixes
+
+* `unknown` -> `dynamic` in README ([5baf1d1](https://github.com/alevnyacow/domain-first-errors/commit/5baf1d1bbdf4a50b7f628480a1de82a5633a6044))
+
 # [1.5.0](https://github.com/alevnyacow/domain-first-errors/compare/v1.4.0...v1.5.0) (2026-07-21)
 
 
