@@ -1,3 +1,10 @@
+## [1.5.2](https://github.com/alevnyacow/domain-first-errors/compare/v1.5.1...v1.5.2) (2026-07-21)
+
+
+### Bug Fixes
+
+* Added minzip bundlephobia badge ([4a217e3](https://github.com/alevnyacow/domain-first-errors/commit/4a217e397847c215206c90a184e5471ed38c61ae))
+
 ## [1.5.1](https://github.com/alevnyacow/domain-first-errors/compare/v1.5.0...v1.5.1) (2026-07-21)
 
 
