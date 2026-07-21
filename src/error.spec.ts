@@ -1,34 +1,34 @@
 import { expect, test } from '@rstest/core';
 import { defineErrorClass } from './error';
 
-test('w', () => {
-    type DetailsPayload = { userEmail: string };
-    const UserRegistrationError = defineErrorClass<DetailsPayload>({
-        code: 'USER_REGISTRATION_ERROR'
+test('error.serialized', () => {
+    // Define an error class
+    const IncorrectPasswordError = defineErrorClass<{
+        login: string;
+    }>({
+        code: 'INCORRECT_PASSWORD'
     });
 
-    const ErrorWithCustomNameAndMessage = defineErrorClass<{ email: string }>(
-        {
-            code: 'DUMMY_ERROR_01'
-        },
-        {
-            message: (details) => `${details.email} is in error state`,
-            name: (metadata) => JSON.stringify(metadata)
-        }
-    );
-    const err2 = new ErrorWithCustomNameAndMessage({ email: 'test@mail.mail' });
-    console.log(err2);
+    // Throw and identify it
+    try {
+        throw new IncorrectPasswordError({
+            login: 'test-login'
+        });
+    } catch (e: unknown) {
+        expect(IncorrectPasswordError.is(e)).toBe(true);
+    }
 
-    const err = new UserRegistrationError({ userEmail: 'hello@test.test' });
+    // Recognize a serialized error
+    const error = new IncorrectPasswordError({
+        login: 'test-login'
+    });
 
-    console.log(UserRegistrationError.matches(err));
-    console.log(UserRegistrationError.is(err));
-    console.log(err instanceof UserRegistrationError);
+    // { metadata: { code: "INCORRECT_PASSWORD" } }
+    const serializedError = error.serialized;
 
-    console.log(err);
-    console.log(err.formattedDetails);
+    expect(serializedError).toEqual({
+        metadata: { code: 'INCORRECT_PASSWORD' }
+    });
 
-    console.log(err.metadata);
-
-    expect(true).toBe(true);
+    expect(IncorrectPasswordError.matches(serializedError)).toBe(true);
 });

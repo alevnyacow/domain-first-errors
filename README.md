@@ -47,11 +47,10 @@ const error = new IncorrectPasswordError({
     login: "test-login",
 });
 
-const transportedError = {
-    metadata: error.metadata,
-};
+// { metadata: { code: "INCORRECT_PASSWORD" } }
+const serializedError = error.serialized;
 
-if (IncorrectPasswordError.matches(transportedError)) {
+if (IncorrectPasswordError.matches(serializedError)) {
     console.log("Incorrect password");
 }
 ```

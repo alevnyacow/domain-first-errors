@@ -1,5 +1,11 @@
 import { detailsFromUnknownData } from './details-from-unknown-data';
-import type { ErrorProps, PlainPrimitivesObject } from './types';
+import type {
+    ErrorProps,
+    FullTransportedError,
+    PlainPrimitivesObject,
+    TransportedError,
+    TransportedErrorWithNativeData
+} from './types';
 
 export const defineErrorClass = <
     Details extends PlainPrimitivesObject = PlainPrimitivesObject,
@@ -42,6 +48,34 @@ export const defineErrorClass = <
 
         get formattedDetails(): PlainPrimitivesObject {
             return detailsFromUnknownData(this.details);
+        }
+
+        get serialized(): TransportedError<
+            AdditionalMetadata & { code: string }
+        > {
+            return { metadata: this.metadata };
+        }
+
+        get serializedWithNativeData(): TransportedErrorWithNativeData<
+            AdditionalMetadata & { code: string }
+        > {
+            return {
+                metadata: this.metadata,
+                message: this.message,
+                name: this.name
+            };
+        }
+
+        get serializedFull(): FullTransportedError<
+            Details,
+            AdditionalMetadata & { code: string }
+        > {
+            return {
+                metadata: this.metadata,
+                message: this.message,
+                name: this.name,
+                details: this.details
+            };
         }
     }
 
