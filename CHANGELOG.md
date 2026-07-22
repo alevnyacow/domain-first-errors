@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/alevnyacow/domain-first-errors/compare/v1.5.2...v1.6.0) (2026-07-22)
+
+
+### Features
+
+* Added types to entrypoint ([8caec9e](https://github.com/alevnyacow/domain-first-errors/commit/8caec9e05780d65957fc503cdf186bde606de2c5))
+
 ## [1.5.2](https://github.com/alevnyacow/domain-first-errors/compare/v1.5.1...v1.5.2) (2026-07-21)
 
 
