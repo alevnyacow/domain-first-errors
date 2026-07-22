@@ -8,7 +8,7 @@ import type {
 } from './types';
 
 export const defineErrorClass = <
-    Details extends PlainPrimitivesObject = PlainPrimitivesObject,
+    Details extends Record<string, any> = Record<string, any>,
     AdditionalMetadata extends PlainPrimitivesObject = PlainPrimitivesObject
 >(
     metadata: AdditionalMetadata & { code: string },
