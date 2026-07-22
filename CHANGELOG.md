@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/alevnyacow/domain-first-errors/compare/v1.6.0...v1.7.0) (2026-07-22)
+
+
+### Features
+
+* Any record can be used as details ([a460185](https://github.com/alevnyacow/domain-first-errors/commit/a460185252c37ab97a22d183911164902d3cfc33))
+
 # [1.6.0](https://github.com/alevnyacow/domain-first-errors/compare/v1.5.2...v1.6.0) (2026-07-22)
 
 
