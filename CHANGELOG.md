@@ -1,3 +1,10 @@
+## [1.7.2](https://github.com/alevnyacow/domain-first-errors/compare/v1.7.1...v1.7.2) (2026-07-23)
+
+
+### Bug Fixes
+
+* `for-the-badge` styles for badges in README ([b4bd326](https://github.com/alevnyacow/domain-first-errors/commit/b4bd3260f3cdf5c90dfed96a4f897a20f8485281))
+
 ## [1.7.1](https://github.com/alevnyacow/domain-first-errors/compare/v1.7.0...v1.7.1) (2026-07-23)
 
 
