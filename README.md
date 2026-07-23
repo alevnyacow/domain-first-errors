@@ -9,11 +9,10 @@
 </p>
 
 <p align="center">
-<p align="center">
   <img src="https://img.shields.io/npm/v/%40domain-first%2Ferrors?style=for-the-badge" alt="version">
   <img src="https://img.shields.io/bundlephobia/minzip/%40domain-first%2Ferrors?style=for-the-badge" alt="size">
   <img src="https://img.shields.io/npm/l/%40domain-first%2Ferrors?style=for-the-badge" alt="license">
-</p></p>
+</p>
 
 # Installation
 
