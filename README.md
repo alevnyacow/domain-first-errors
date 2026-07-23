@@ -20,6 +20,10 @@
 npm i @domain-first/errors
 ```
 
+# Motivation
+
+In Domain-Driven Design, domain errors are part of the domain model, yet they are often treated as generic exceptions or untyped payloads. Serialized native `Error` objects lose their runtime identity after crossing process boundaries, making `instanceof` unreliable. Domain-First Errors let you define strongly typed domain errors that remain identifiable both as runtime instances and as serialized objects.
+
 # Quick Start
 
 ```ts
@@ -55,10 +59,6 @@ if (IncorrectPasswordError.matches(serializedError)) {
     console.log("Incorrect password");
 }
 ```
-
-# Motivation
-
-In Domain-Driven Design, domain errors are part of the domain model, yet they are often treated as generic exceptions or untyped payloads. Serialized native `Error` objects lose their runtime identity after crossing process boundaries, making `instanceof` unreliable. Domain-First Errors let you define strongly typed domain errors that remain identifiable both as runtime instances and as serialized objects.
 
 # About
 
