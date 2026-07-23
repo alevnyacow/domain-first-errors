@@ -1,3 +1,10 @@
+## [1.7.1](https://github.com/alevnyacow/domain-first-errors/compare/v1.7.0...v1.7.1) (2026-07-23)
+
+
+### Bug Fixes
+
+* `Motivation` section before `Quick Start` section in README ([9d2cc23](https://github.com/alevnyacow/domain-first-errors/commit/9d2cc232c08a41783257ba9c510fd7f5c2c39180))
+
 # [1.7.0](https://github.com/alevnyacow/domain-first-errors/compare/v1.6.0...v1.7.0) (2026-07-22)
 
 
