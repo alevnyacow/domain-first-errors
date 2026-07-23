@@ -1,3 +1,10 @@
+## [1.7.3](https://github.com/alevnyacow/domain-first-errors/compare/v1.7.2...v1.7.3) (2026-07-23)
+
+
+### Bug Fixes
+
+* removed <p> duplication ([aeadea9](https://github.com/alevnyacow/domain-first-errors/commit/aeadea90a1df5855087ae525b72d1f012bdbea48))
+
 ## [1.7.2](https://github.com/alevnyacow/domain-first-errors/compare/v1.7.1...v1.7.2) (2026-07-23)
 
 
