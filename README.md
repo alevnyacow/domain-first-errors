@@ -172,7 +172,7 @@ const err = new ErrorWithUnknownDetails({
     email: "test@mail.mail",
     language: "EN",
     artist: "Slowdive",
-    album: "Souvlaki Space Station",
+    album: "Souvlaki",
 });
 ```
 
