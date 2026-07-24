@@ -1,3 +1,10 @@
+## [1.7.4](https://github.com/alevnyacow/domain-first-errors/compare/v1.7.3...v1.7.4) (2026-07-24)
+
+
+### Bug Fixes
+
+* Slowdive album naming (shame on me) ([cb8ac9b](https://github.com/alevnyacow/domain-first-errors/commit/cb8ac9bd0f9ea4b85317592b5869adbee00087fc))
+
 ## [1.7.3](https://github.com/alevnyacow/domain-first-errors/compare/v1.7.2...v1.7.3) (2026-07-23)
 
 
