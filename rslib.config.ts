@@ -12,4 +12,8 @@ export default defineConfig({
       syntax: ['node 22'],
     },
   ],
+  output: {
+    minify: true,
+    sourceMap: true
+  }
 });
