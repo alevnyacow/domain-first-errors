@@ -1,3 +1,10 @@
+## [1.7.5](https://github.com/alevnyacow/domain-first-errors/compare/v1.7.4...v1.7.5) (2026-07-25)
+
+
+### Bug Fixes
+
+* minifying dist sources ([00d5733](https://github.com/alevnyacow/domain-first-errors/commit/00d573339fdee03e20030a2cc692211bf0111689))
+
 ## [1.7.4](https://github.com/alevnyacow/domain-first-errors/compare/v1.7.3...v1.7.4) (2026-07-24)
 
 
