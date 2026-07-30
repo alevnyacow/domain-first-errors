@@ -1,9 +1,9 @@
 import { expect, test } from '@rstest/core';
-import { defineErrorClass } from './error';
+import { defineError } from './error';
 
 test('error.serialized', () => {
     // Define an error class
-    const IncorrectPasswordError = defineErrorClass<{
+    const IncorrectPasswordError = defineError<{
         login: string;
     }>({
         code: 'INCORRECT_PASSWORD'

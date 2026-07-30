@@ -1,2 +1,2 @@
-export { defineErrorClass } from './error';
+export { defineError } from './error';
 export * from './types';

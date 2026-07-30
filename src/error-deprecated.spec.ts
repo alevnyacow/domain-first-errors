@@ -1,13 +1,13 @@
 import { expect, test } from '@rstest/core';
-import { defineErrorClass } from './error';
+import { defineError } from './error';
 
 test('w', () => {
     type DetailsPayload = { userEmail: string };
-    const UserRegistrationError = defineErrorClass<DetailsPayload>({
+    const UserRegistrationError = defineError<DetailsPayload>({
         code: 'USER_REGISTRATION_ERROR'
     });
 
-    const ErrorWithCustomNameAndMessage = defineErrorClass<{ email: string }>(
+    const ErrorWithCustomNameAndMessage = defineError<{ email: string }>(
         {
             code: 'DUMMY_ERROR_01'
         },

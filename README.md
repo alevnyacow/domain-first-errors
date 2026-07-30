@@ -27,10 +27,10 @@ In Domain-Driven Design, domain errors are part of the domain model, yet they ar
 # Quick Start
 
 ```ts
-import { defineErrorClass } from "@domain-first/errors";
+import { defineError } from "@domain-first/errors";
 
 // Define an error class
-const IncorrectPasswordError = defineErrorClass<{
+const IncorrectPasswordError = defineError<{
     login: string;
 }>({
     code: "INCORRECT_PASSWORD",
@@ -79,11 +79,11 @@ This makes errors easy to serialize, transport between layers, and recognize. Ev
 ### With details contract
 
 ```ts
-import { defineErrorClass } from "@domain-first/errors";
+import { defineError } from "@domain-first/errors";
 
 type Details = { email: string };
 
-const RegistrationOnExistingEmailError = defineErrorClass<Details>({
+const RegistrationOnExistingEmailError = defineError<Details>({
     code: "REGISTRATION_ON_EXISTING_EMAIL",
 });
 
@@ -110,7 +110,7 @@ console.log(err);
 ### With additional metadata contract
 
 ```ts
-import { defineErrorClass } from "@domain-first/errors";
+import { defineError } from "@domain-first/errors";
 
 type Details = { email: string };
 
@@ -119,20 +119,21 @@ type AdditionalMetadata = {
     critical: boolean;
 };
 
-const ErrorWithAdditionalMetadata = defineErrorClass<
-    Details,
-    AdditionalMetadata
->({ code: "DUMMY_ERROR_00", retryable: false, critical: true });
+const ErrorWithAdditionalMetadata = defineError<Details, AdditionalMetadata>({
+    code: "DUMMY_ERROR_00",
+    retryable: false,
+    critical: true,
+});
 ```
 
 ### With custom error name and message
 
 ```ts
-import { defineErrorClass } from "@domain-first/errors";
+import { defineError } from "@domain-first/errors";
 
 type Details = { email: string };
 
-const ErrorWithCustomNameAndMessage = defineErrorClass<Details>(
+const ErrorWithCustomNameAndMessage = defineError<Details>(
     {
         code: "DUMMY_ERROR_01",
     },
@@ -160,9 +161,9 @@ console.log(errWithCustomName);
 ### With dynamic details and metadata
 
 ```ts
-import { defineErrorClass } from "@domain-first/errors";
+import { defineError } from "@domain-first/errors";
 
-const ErrorWithUnknownDetails = defineErrorClass({
+const ErrorWithUnknownDetails = defineError({
     code: "DUMMY_ERROR_02",
     stringField: "string field",
     booleanField: true,

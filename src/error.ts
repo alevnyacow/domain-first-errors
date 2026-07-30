@@ -7,7 +7,7 @@ import type {
     TransportedErrorWithNativeData
 } from './types';
 
-export const defineErrorClass = <
+export const defineError = <
     Details extends Record<string, any> = Record<string, any>,
     AdditionalMetadata extends PlainPrimitivesObject = PlainPrimitivesObject
 >(
