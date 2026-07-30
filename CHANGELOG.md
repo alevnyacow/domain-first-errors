@@ -1,3 +1,15 @@
+# [2.0.0](https://github.com/alevnyacow/domain-first-errors/compare/v1.7.5...v2.0.0) (2026-07-30)
+
+
+### Features
+
+* `defineErrorClass` -> `defineError` ([5b21e40](https://github.com/alevnyacow/domain-first-errors/commit/5b21e408677cc9ee853a75a17f6c93455f00a402))
+
+
+### BREAKING CHANGES
+
+* new contracts, use `defineError` instead of `defineErrorClass`
+
 ## [1.7.5](https://github.com/alevnyacow/domain-first-errors/compare/v1.7.4...v1.7.5) (2026-07-25)
 
 
