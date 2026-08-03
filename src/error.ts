@@ -1,3 +1,4 @@
+import { isDeepStrictEqual } from 'node:util';
 import { detailsFromUnknownData } from './details-from-unknown-data';
 import type {
     ErrorProps,
@@ -7,24 +8,32 @@ import type {
     TransportedErrorWithNativeData
 } from './types';
 
-export const defineError = <
-    Details extends Record<string, any> = Record<string, any>,
-    AdditionalMetadata extends PlainPrimitivesObject = PlainPrimitivesObject
+const defineErrorClass = <
+    Details extends Record<string, unknown> = Record<string, unknown>,
+    Metadata extends PlainPrimitivesObject = PlainPrimitivesObject
 >(
-    metadata: AdditionalMetadata & { code: string },
-    errorProps: ErrorProps<AdditionalMetadata & { code: string }, Details> = {
-        message: (details) => JSON.stringify(detailsFromUnknownData(details)),
-        name: (metadata) => metadata.code
-    }
+    code: string,
+    metadata: Metadata,
+    errorProps?: Partial<ErrorProps<Metadata, Details>>
 ) => {
+    const defaultErrorMessage: ErrorProps<Metadata, Details>['message'] = ({
+        formattedDetails
+    }) => JSON.stringify(formattedDetails);
+
+    const defaultErrorName: ErrorProps<Metadata, Details>['name'] = ({
+        code
+    }) => code;
+
     const symbol = Symbol();
     class DomainFirstErrorBase extends Error {
         static matches = (target: unknown) => {
             return (
                 typeof target === 'object' &&
                 target &&
+                'code' in target &&
+                target.code === code &&
                 'metadata' in target &&
-                JSON.stringify(target.metadata) === JSON.stringify(metadata)
+                isDeepStrictEqual(metadata, target.metadata)
             );
         };
 
@@ -32,15 +41,28 @@ export const defineError = <
             return typeof target === 'object' && !!target && symbol in target;
         };
 
-        public readonly metadata: AdditionalMetadata & { code: string };
+        public readonly code: string;
+        public readonly metadata: Metadata;
 
         constructor(
             public readonly details: Details,
             options?: ErrorOptions
         ) {
-            super(errorProps.message(details, metadata), options);
+            super(
+                (errorProps?.message ?? defaultErrorMessage)({
+                    code,
+                    details,
+                    formattedDetails: detailsFromUnknownData(details),
+                    metadata
+                }),
+                options
+            );
 
-            this.name = errorProps.name(metadata);
+            this.code = code;
+            this.name = (errorProps?.name ?? defaultErrorName)({
+                code,
+                metadata
+            });
             this.metadata = metadata;
 
             Object.defineProperty(this, symbol, { value: true });
@@ -50,34 +72,57 @@ export const defineError = <
             return detailsFromUnknownData(this.details);
         }
 
-        get serialized(): TransportedError<
-            AdditionalMetadata & { code: string }
-        > {
-            return { metadata: this.metadata };
+        get serialized(): TransportedError<Metadata> {
+            return { metadata, code };
         }
 
-        get serializedWithNativeData(): TransportedErrorWithNativeData<
-            AdditionalMetadata & { code: string }
-        > {
+        get serializedWithNativeData(): TransportedErrorWithNativeData<Metadata> {
             return {
-                metadata: this.metadata,
+                metadata,
                 message: this.message,
-                name: this.name
+                name: this.name,
+                code
             };
         }
 
-        get serializedFull(): FullTransportedError<
-            Details,
-            AdditionalMetadata & { code: string }
-        > {
+        get serializedFull(): FullTransportedError<Details, Metadata> {
             return {
-                metadata: this.metadata,
+                metadata,
                 message: this.message,
                 name: this.name,
-                details: this.details
+                details: this.details,
+                code
             };
         }
     }
 
     return DomainFirstErrorBase;
+};
+
+export const errorNamespace = (namespace: string) => {
+    const subnamespace = (subnamespace: string) => {
+        return errorNamespace(`${namespace}.${subnamespace}`);
+    };
+    const error = <
+        Details extends Record<string, unknown> = Record<string, unknown>
+    >(
+        code: string,
+        errorProps?: Partial<ErrorProps<{}, Details>>
+    ) => defineErrorClass<Details, {}>(`${namespace}.${code}`, {}, errorProps);
+
+    const errorWithMetadata = <
+        Details extends Record<string, unknown> = Record<string, unknown>,
+        Metadata extends PlainPrimitivesObject = PlainPrimitivesObject
+    >(
+        code: string,
+        metadata: Metadata,
+        errorProps?: Partial<ErrorProps<Metadata, Details>>
+    ) =>
+        defineErrorClass<Details, Metadata>(
+            `${namespace}.${code}`,
+            metadata,
+            errorProps
+        );
+
+    return { subnamespace, error, errorWithMetadata };
 };

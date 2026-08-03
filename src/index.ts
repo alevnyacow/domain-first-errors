@@ -1,2 +1,2 @@
-export { defineError } from './error';
+export { errorNamespace } from './error';
 export * from './types';

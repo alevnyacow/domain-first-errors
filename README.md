@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-    Strongly typed domain errors that remain identifiable across application boundaries.
+    Strongly typed namespace-based domain errors that remain identifiable across application boundaries.
 </p>
 
 <p align="center">
@@ -22,26 +22,44 @@ npm i @domain-first/errors
 
 # Motivation
 
-In Domain-Driven Design, domain errors are part of the domain model, yet they are often treated as generic exceptions or untyped payloads. Serialized native `Error` objects lose their runtime identity after crossing process boundaries, making `instanceof` unreliable. Domain-First Errors let you define strongly typed domain errors that remain identifiable both as runtime instances and as serialized objects.
+In Domain-Driven Design, domain errors are part of the domain model, yet they are often treated as generic exceptions or untyped payloads. Serialized native `Error` objects lose their runtime identity after crossing process boundaries, making `instanceof` unusable after serialization. Domain-First Errors let you define strongly typed domain errors that remain identifiable both as runtime instances and as serialized objects.
 
 # Quick Start
 
 ```ts
-import { defineError } from "@domain-first/errors";
+import { errorNamespace } from "@domain-first/errors";
+
+const UserErrors = errorNamespace("USER");
+
+const AuthErrors = UserErrors.subnamespace("AUTH");
 
 // Define an error class
-const IncorrectPasswordError = defineError<{
+const IncorrectPasswordError = AuthErrors.error<{
     login: string;
-}>({
-    code: "INCORRECT_PASSWORD",
-});
+}>("INCORRECT_PASSWORD");
 
 // Throw and identify it
 try {
-    throw new IncorrectPasswordError({
-        login: "test-login",
-    });
+    throw new IncorrectPasswordError(
+        {
+            login: "test-login",
+        },
+        // optional cause can be passed in any error
+        { cause: 42 },
+    );
 } catch (e: unknown) {
+    /**
+       USER.AUTH.INCORRECT_PASSWORD: {"login":"test-login"}
+       ...stack
+       details: { login: 'test-login' },
+       code: 'INCORRECT_PASSWORD',
+       metadata: {},
+       [cause]: 42
+     }
+
+     */
+    console.error(e);
+
     if (IncorrectPasswordError.is(e)) {
         console.log(`Incorrect password (${e.details.login})`);
     }
@@ -52,7 +70,7 @@ const error = new IncorrectPasswordError({
     login: "test-login",
 });
 
-// { metadata: { code: "INCORRECT_PASSWORD" } }
+// { code: "INCORRECT_PASSWORD", metadata: { } }
 const serializedError = error.serialized;
 
 if (IncorrectPasswordError.matches(serializedError)) {
@@ -62,161 +80,9 @@ if (IncorrectPasswordError.matches(serializedError)) {
 
 # About
 
-A utility for defining strongly typed domain errors that remain identifiable across application boundaries. Every defined error extends the native `Error` class, supports native Error causes and has:
-
-- metadata describing the error type;
-- details describing a specific instance.
+A utility for defining strongly typed namespace-based domain errors that remain identifiable across application boundaries. Every defined error extends the native `Error` class and supports the native `Error.cause` property.
 
 This makes errors easy to serialize, transport between layers, and recognize. Every error class provides two ways to identify that error type:
 
-- `is` for runtime instances;
+- `is` for runtime instances (`instanceof` works as well);
 - `matches` for serialized or transported errors.
-
-# Examples
-
-## Defining
-
-### With details contract
-
-```ts
-import { defineError } from "@domain-first/errors";
-
-type Details = { email: string };
-
-const RegistrationOnExistingEmailError = defineError<Details>({
-    code: "REGISTRATION_ON_EXISTING_EMAIL",
-});
-
-const err = new RegistrationOnExistingEmailError(
-    {
-        email: "hello@test.test",
-    },
-    // cause can be passed in any error
-    { cause: 42 },
-);
-
-console.log(err);
-
-/**
- * REGISTRATION_ON_EXISTING_EMAIL: {"email":"hello@test.test"}
-  ...stack
-  details: { email: 'hello@test.test' },
-  metadata: { code: 'REGISTRATION_ON_EXISTING_EMAIL' },
-  [cause]: 42
-}
- */
-```
-
-### With additional metadata contract
-
-```ts
-import { defineError } from "@domain-first/errors";
-
-type Details = { email: string };
-
-type AdditionalMetadata = {
-    retryable: boolean;
-    critical: boolean;
-};
-
-const ErrorWithAdditionalMetadata = defineError<Details, AdditionalMetadata>({
-    code: "DUMMY_ERROR_00",
-    retryable: false,
-    critical: true,
-});
-```
-
-### With custom error name and message
-
-```ts
-import { defineError } from "@domain-first/errors";
-
-type Details = { email: string };
-
-const ErrorWithCustomNameAndMessage = defineError<Details>(
-    {
-        code: "DUMMY_ERROR_01",
-    },
-    {
-        message: (details) => `${details.email} is in error state`,
-        name: (metadata) => JSON.stringify(metadata),
-    },
-);
-
-const errWithCustomName = new ErrorWithCustomNameAndMessage({
-    email: "test@mail.mail",
-});
-
-console.log(errWithCustomName);
-
-/**
- * {"code":"DUMMY_ERROR_01"}: test@mail.mail is in error state
-   ...stack
-   details: { email: 'test@mail.mail' },
-   metadata: { code: 'DUMMY_ERROR_01' }
- }
- */
-```
-
-### With dynamic details and metadata
-
-```ts
-import { defineError } from "@domain-first/errors";
-
-const ErrorWithUnknownDetails = defineError({
-    code: "DUMMY_ERROR_02",
-    stringField: "string field",
-    booleanField: true,
-});
-
-const err = new ErrorWithUnknownDetails({
-    email: "test@mail.mail",
-    language: "EN",
-    artist: "Slowdive",
-    album: "Souvlaki",
-});
-```
-
-## Identifying
-
-### Checking instance with `is`
-
-```ts
-import { RegistrationOnExistingEmailError } from "./errors";
-
-const register = () => {
-    try {
-        // registration logic
-    } catch (e: unknown) {
-        if (RegistrationOnExistingEmailError.is(e)) {
-            // e is narrowed to RegistrationOnExistingEmailError
-            console.log(`${e.details.email} is already taken`);
-        }
-    }
-};
-```
-
-### Matching serialized errors with `matches`
-
-```ts
-import { RegistrationOnExistingEmailError } from "@/errors";
-
-const register = async (email: string) => {
-    const { error } = await registrationMutation(email);
-
-    if (!error) {
-        return;
-    }
-
-    if (RegistrationOnExistingEmailError.matches(error)) {
-        console.log("Email is already taken");
-    }
-};
-```
-
-# Glossary
-
-| Term     | Definition                                                                                                                                                                             |
-| -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Metadata | Object with data identifying the error **type**. This data will be the same for every instance of this error (`code`, for example). Metadata is passed when you define an error class. |
-| Details  | Object with data identifying the error **instance** (`email`, for example). Details are passed in constructor of error class.                                                          |

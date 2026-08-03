@@ -1,8 +1,16 @@
 export type PlainPrimitivesObject = Record<string, string | number | boolean>;
 
-export type ErrorProps<Metadata, Details> = {
-    name: (metadata: Metadata) => string;
-    message: (details: Details, metadata: Metadata) => string;
+export type ErrorProps<
+    Metadata extends PlainPrimitivesObject,
+    Details extends Record<string, any>
+> = {
+    name: (payload: { code: string; metadata: Metadata }) => string;
+    message: (payload: {
+        code: string;
+        details: Details;
+        formattedDetails: PlainPrimitivesObject;
+        metadata: Metadata;
+    }) => string;
 };
 
 export type ErrorPropsWithoutMetadata<Details> = {
@@ -11,6 +19,7 @@ export type ErrorPropsWithoutMetadata<Details> = {
 
 export type TransportedError<Metadata = PlainPrimitivesObject> = {
     metadata: Metadata;
+    code: string;
 };
 
 export type TransportedErrorWithNativeData<Metadata = PlainPrimitivesObject> =
@@ -20,11 +29,6 @@ export type TransportedErrorWithNativeData<Metadata = PlainPrimitivesObject> =
     };
 
 export type FullTransportedError<
-    Details = PlainPrimitivesObject,
-    Metadata = PlainPrimitivesObject
-> = {
-    metadata: Metadata;
-    message: string;
-    name: string;
-    details: Details;
-};
+    Details extends Record<string, any>,
+    Metadata extends PlainPrimitivesObject
+> = TransportedErrorWithNativeData<Metadata> & { details: Details };
