@@ -1,3 +1,10 @@
+## [3.0.2](https://github.com/alevnyacow/domain-first-errors/compare/v3.0.1...v3.0.2) (2026-08-03)
+
+
+### Bug Fixes
+
+* correct Code in `code` field in README example ([eab82f4](https://github.com/alevnyacow/domain-first-errors/commit/eab82f4458d95890f7ce531dfad4c553473bf38b))
+
 ## [3.0.1](https://github.com/alevnyacow/domain-first-errors/compare/v3.0.0...v3.0.1) (2026-08-03)
 
 
