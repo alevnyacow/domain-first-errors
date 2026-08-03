@@ -52,7 +52,7 @@ try {
        USER.AUTH.INCORRECT_PASSWORD: {"login":"test-login"}
        ...stack
        details: { login: 'test-login' },
-       code: 'INCORRECT_PASSWORD',
+       code: 'USER.AUTH.INCORRECT_PASSWORD',
        metadata: {},
        [cause]: 42
      }
