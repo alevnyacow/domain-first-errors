@@ -70,7 +70,7 @@ const error = new IncorrectPasswordError({
     login: "test-login",
 });
 
-// { code: "INCORRECT_PASSWORD", metadata: { } }
+// { code: "USER.AUTH.INCORRECT_PASSWORD", metadata: { } }
 const serializedError = error.serialized;
 
 if (IncorrectPasswordError.matches(serializedError)) {
