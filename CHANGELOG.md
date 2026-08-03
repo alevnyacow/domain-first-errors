@@ -1,3 +1,15 @@
+# [3.0.0](https://github.com/alevnyacow/domain-first-errors/compare/v2.0.0...v3.0.0) (2026-08-03)
+
+
+### Features
+
+* namespaces ([e607bd6](https://github.com/alevnyacow/domain-first-errors/commit/e607bd69f07195b88ede64dea6ed62e330e6d0f4))
+
+
+### BREAKING CHANGES
+
+* new API
+
 # [2.0.0](https://github.com/alevnyacow/domain-first-errors/compare/v1.7.5...v2.0.0) (2026-07-30)
 
 
