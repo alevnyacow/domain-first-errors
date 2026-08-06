@@ -6,7 +6,7 @@ const UserAuth = UserErrors.subnamespace('auth');
 
 test('error.serialized', () => {
     // Define an error class
-    const IncorrectPasswordError = UserAuth.error<{
+    const IncorrectPasswordError = UserAuth.define<{
         login: string;
     }>('INCORRECT_PASSWORD');
 
