@@ -1,3 +1,10 @@
+## [3.0.4](https://github.com/alevnyacow/domain-first-errors/compare/v3.0.3...v3.0.4) (2026-08-06)
+
+
+### Bug Fixes
+
+* updated badges, upgraded unit-test in `error.spec.ts` to match active API ([66a1d6a](https://github.com/alevnyacow/domain-first-errors/commit/66a1d6a55e6a5639a04cda2f786a805d726a0087))
+
 ## [3.0.3](https://github.com/alevnyacow/domain-first-errors/compare/v3.0.2...v3.0.3) (2026-08-06)
 
 
