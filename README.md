@@ -34,7 +34,7 @@ const UserErrors = errorNamespace("USER");
 const AuthErrors = UserErrors.subnamespace("AUTH");
 
 // Define an error class
-const IncorrectPasswordError = AuthErrors.error<{
+const IncorrectPasswordError = AuthErrors.define<{
     login: string;
 }>("INCORRECT_PASSWORD");
 

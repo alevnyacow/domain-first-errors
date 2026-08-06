@@ -103,14 +103,14 @@ export const errorNamespace = (namespace: string) => {
     const subnamespace = (subnamespace: string) => {
         return errorNamespace(`${namespace}.${subnamespace}`);
     };
-    const error = <
+    const define = <
         Details extends Record<string, unknown> = Record<string, unknown>
     >(
         code: string,
         errorProps?: Partial<ErrorProps<{}, Details>>
     ) => defineErrorClass<Details, {}>(`${namespace}.${code}`, {}, errorProps);
 
-    const errorWithMetadata = <
+    const defineWithMetadata = <
         Details extends Record<string, unknown> = Record<string, unknown>,
         Metadata extends PlainPrimitivesObject = PlainPrimitivesObject
     >(
@@ -124,5 +124,11 @@ export const errorNamespace = (namespace: string) => {
             errorProps
         );
 
-    return { subnamespace, error, errorWithMetadata };
+    return {
+        subnamespace,
+        error: define,
+        errorWithMetadata: defineWithMetadata,
+        define,
+        defineWithMetadata
+    };
 };
