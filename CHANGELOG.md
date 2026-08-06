@@ -1,3 +1,10 @@
+## [3.0.3](https://github.com/alevnyacow/domain-first-errors/compare/v3.0.2...v3.0.3) (2026-08-06)
+
+
+### Bug Fixes
+
+* added `define` and `defineWithMetadata`. Support of `error` and ([a939167](https://github.com/alevnyacow/domain-first-errors/commit/a9391679748a773099237747b4a7be0d0fa49e4c))
+
 ## [3.0.2](https://github.com/alevnyacow/domain-first-errors/compare/v3.0.1...v3.0.2) (2026-08-03)
 
 
