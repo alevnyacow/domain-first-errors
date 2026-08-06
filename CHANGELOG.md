@@ -1,3 +1,10 @@
+## [3.0.5](https://github.com/alevnyacow/domain-first-errors/compare/v3.0.4...v3.0.5) (2026-08-06)
+
+
+### Bug Fixes
+
+* badges ([bf38a5a](https://github.com/alevnyacow/domain-first-errors/commit/bf38a5ab8f8b20e69dd45a90e9f4ccbef44f60f4))
+
 ## [3.0.4](https://github.com/alevnyacow/domain-first-errors/compare/v3.0.3...v3.0.4) (2026-08-06)
 
 
