@@ -13,22 +13,10 @@ export type ErrorProps<
     }) => string;
 };
 
-export type ErrorPropsWithoutMetadata<Details> = {
-    message: (details: Details) => string;
-};
-
-export type TransportedError<Metadata = PlainPrimitivesObject> = {
-    metadata: Metadata;
+export type SerializedError<Metadata extends PlainPrimitivesObject> = {
     code: string;
+    details: PlainPrimitivesObject;
+    name: string;
+    message: string;
+    metadata: Metadata;
 };
-
-export type TransportedErrorWithNativeData<Metadata = PlainPrimitivesObject> =
-    TransportedError<Metadata> & {
-        name: string;
-        message: string;
-    };
-
-export type FullTransportedError<
-    Details extends Record<string, any>,
-    Metadata extends PlainPrimitivesObject
-> = TransportedErrorWithNativeData<Metadata> & { details: Details };

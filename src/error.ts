@@ -1,11 +1,8 @@
-import { isDeepStrictEqual } from 'node:util';
 import { detailsFromUnknownData } from './details-from-unknown-data';
 import type {
     ErrorProps,
-    FullTransportedError,
     PlainPrimitivesObject,
-    TransportedError,
-    TransportedErrorWithNativeData
+    SerializedError
 } from './types';
 
 const defineErrorClass = <
@@ -26,15 +23,12 @@ const defineErrorClass = <
 
     const symbol = Symbol();
     class DomainFirstErrorBase extends Error {
-        static matches = (target: unknown) => {
-            return (
-                typeof target === 'object' &&
-                target &&
-                'code' in target &&
-                target.code === code &&
-                'metadata' in target &&
-                isDeepStrictEqual(metadata, target.metadata)
-            );
+        static matchesCode = (target: string | { code: string }) => {
+            const codeFromTarget =
+                typeof target === 'string' ? target : target.code;
+            if (codeFromTarget === code) {
+                return metadata;
+            }
         };
 
         static is = (target: unknown): target is DomainFirstErrorBase => {
@@ -72,25 +66,12 @@ const defineErrorClass = <
             return detailsFromUnknownData(this.details);
         }
 
-        get serialized(): TransportedError<Metadata> {
-            return { metadata, code };
-        }
-
-        get serializedWithNativeData(): TransportedErrorWithNativeData<Metadata> {
+        get serialized(): SerializedError<Metadata> {
             return {
                 metadata,
                 message: this.message,
                 name: this.name,
-                code
-            };
-        }
-
-        get serializedFull(): FullTransportedError<Details, Metadata> {
-            return {
-                metadata,
-                message: this.message,
-                name: this.name,
-                details: this.details,
+                details: detailsFromUnknownData(this.details),
                 code
             };
         }
@@ -124,11 +105,15 @@ export const errorNamespace = (namespace: string) => {
             errorProps
         );
 
+    const matchesCode = (target: string | { code: string }) => {
+        const code = typeof target === 'string' ? target : target.code;
+        return code === namespace || code.startsWith(`${namespace}.`);
+    };
+
     return {
         subnamespace,
-        error: define,
-        errorWithMetadata: defineWithMetadata,
         define,
-        defineWithMetadata
+        defineWithMetadata,
+        matchesCode
     };
 };

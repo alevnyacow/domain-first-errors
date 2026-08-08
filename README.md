@@ -41,10 +41,8 @@ const IncorrectPasswordError = AuthErrors.define<{
 // Throw and identify it
 try {
     throw new IncorrectPasswordError(
-        {
-            login: "test-login",
-        },
-        // optional cause can be passed in any error
+        { login: "test-login" },
+        // native Error.cause support
         { cause: 42 },
     );
 } catch (e: unknown) {
@@ -60,6 +58,7 @@ try {
      */
     console.error(e);
 
+    // if (e instanceof IncorrectPasswordError) works as well
     if (IncorrectPasswordError.is(e)) {
         console.log(`Incorrect password (${e.details.login})`);
     }
@@ -70,19 +69,18 @@ const error = new IncorrectPasswordError({
     login: "test-login",
 });
 
-// { code: "USER.AUTH.INCORRECT_PASSWORD", metadata: { } }
-const serializedError = error.serialized;
+const serializedError = JSON.parse(JSON.stringify(error.serialized));
 
-if (IncorrectPasswordError.matches(serializedError)) {
+if (IncorrectPasswordError.matchesCode(serializedError)) {
     console.log("Incorrect password");
 }
 ```
 
 # About
 
-A utility for defining strongly typed namespace-based domain errors that remain identifiable across application boundaries. Every defined error extends the native `Error` class and supports the native `Error.cause` property.
+A utility for defining strongly typed namespace-based domain errors with stable identities across application boundaries. Every defined error extends the native `Error` class and supports the native `Error.cause` property.
 
 This makes errors easy to serialize, transport between layers, and recognize. Every error class provides two ways to identify that error type:
 
 - `is` for runtime instances (`instanceof` works as well);
-- `matches` for serialized or transported errors.
+- `matchesCode` for serialized or transported errors.

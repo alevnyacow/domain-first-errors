@@ -30,27 +30,38 @@ test('error.serialized', () => {
 
     expect(serializedError).toEqual({
         metadata: {},
-        code: 'user.auth.INCORRECT_PASSWORD'
+        code: 'user.auth.INCORRECT_PASSWORD',
+        details: {
+            login: 'test-login'
+        },
+        message: '{"login":"test-login"}',
+        name: 'user.auth.INCORRECT_PASSWORD'
     });
 
-    expect(IncorrectPasswordError.matches(serializedError)).toBe(true);
+    expect(IncorrectPasswordError.matchesCode(serializedError.code)).toEqual(
+        {}
+    );
 });
 
 test('README', () => {
     // Define an error class
-    const IncorrectPasswordError = UserAuth.error<{
+    const IncorrectPasswordError = UserAuth.define<{
         login: string;
     }>('INCORRECT_PASSWORD');
 
     // Throw and identify it
     try {
-        throw new IncorrectPasswordError(
+        expect(
+            UserAuth.matchesCode(new IncorrectPasswordError({ login: '' }))
+        ).toBe(true);
+        const error = new IncorrectPasswordError(
             {
                 login: 'test-login'
             },
             // optional cause can be passed in any error
             { cause: 42 }
         );
+        throw error;
     } catch (e: unknown) {
         console.error(e);
         if (IncorrectPasswordError.is(e)) {
