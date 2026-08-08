@@ -1,3 +1,16 @@
+# [4.0.0](https://github.com/alevnyacow/domain-first-errors/compare/v3.0.5...v4.0.0) (2026-08-08)
+
+
+### Features
+
+* new contracts, matchesByCode returns metadata if succeeded, code checks ([0e2901d](https://github.com/alevnyacow/domain-first-errors/commit/0e2901d9543b880ffe48779ec8da9673122e437c))
+
+
+### BREAKING CHANGES
+
+* types, new API, removed `error`, `errorWithMetadata` ->
+`define`, `defineWithMetadata`, new check API
+
 ## [3.0.5](https://github.com/alevnyacow/domain-first-errors/compare/v3.0.4...v3.0.5) (2026-08-06)
 
 
