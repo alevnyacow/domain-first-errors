@@ -1,3 +1,10 @@
+## [4.0.1](https://github.com/alevnyacow/domain-first-errors/compare/v4.0.0...v4.0.1) (2026-08-09)
+
+
+### Bug Fixes
+
+* added coverage (including readme) ([c9ef3b5](https://github.com/alevnyacow/domain-first-errors/commit/c9ef3b55108e809d3903aba064ddecdbeb3285c2))
+
 # [4.0.0](https://github.com/alevnyacow/domain-first-errors/compare/v3.0.5...v4.0.0) (2026-08-08)
 
 
