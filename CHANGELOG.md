@@ -1,3 +1,10 @@
+## [4.0.2](https://github.com/alevnyacow/domain-first-errors/compare/v4.0.1...v4.0.2) (2026-08-09)
+
+
+### Bug Fixes
+
+* deep `detailsFromUnknownData` for errors ([ae167ff](https://github.com/alevnyacow/domain-first-errors/commit/ae167ff02d8de0d481e9bd3aa8cad6e50a95ee4b))
+
 ## [4.0.1](https://github.com/alevnyacow/domain-first-errors/compare/v4.0.0...v4.0.1) (2026-08-09)
 
 
