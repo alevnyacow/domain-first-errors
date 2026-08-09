@@ -14,7 +14,7 @@ export const detailsFromUnknownData = (
 
     if (typeof source === 'object' && source) {
         if (isErrorWithDetails(source)) {
-            return { ...source.details };
+            return { ...detailsFromUnknownData(source.details) };
         }
 
         if (source instanceof Error) {
