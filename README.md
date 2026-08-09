@@ -84,3 +84,14 @@ This makes errors easy to serialize, transport between layers, and recognize. Ev
 
 - `is` for runtime instances (`instanceof` works as well);
 - `matchesCode` for serialized or transported errors.
+
+# Test coverage
+
+Will be improved in upcoming versions.
+
+| Type       | Threshold | Current value |
+| ---------- | --------- | ------------- |
+| Statements | 80 %      | 83.05 %       |
+| Branches   | 60 %      | 64.1 %        |
+| Functions  | 85 %      | 85.71 %       |
+| Lines      | 80 %      | 82.14 %       |
