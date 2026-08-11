@@ -1,3 +1,10 @@
+## [4.0.3](https://github.com/alevnyacow/domain-first-errors/compare/v4.0.2...v4.0.3) (2026-08-11)
+
+
+### Bug Fixes
+
+* minor stylistic source code fix ([513396b](https://github.com/alevnyacow/domain-first-errors/commit/513396b6a14416e717bbd327943ca57ae732c017))
+
 ## [4.0.2](https://github.com/alevnyacow/domain-first-errors/compare/v4.0.1...v4.0.2) (2026-08-09)
 
 
