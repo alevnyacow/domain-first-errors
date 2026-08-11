@@ -22,6 +22,7 @@ const defineErrorClass = <
     }) => code;
 
     const symbol = Symbol();
+
     class DomainFirstErrorBase extends Error {
         static matchesCode = (target: string | { code: string }) => {
             const codeFromTarget =
