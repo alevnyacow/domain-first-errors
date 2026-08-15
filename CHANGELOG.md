@@ -1,3 +1,10 @@
+## [4.0.4](https://github.com/alevnyacow/domain-first-errors/compare/v4.0.3...v4.0.4) (2026-08-15)
+
+
+### Bug Fixes
+
+* **README:** added semantic release badge ([fe5a5f4](https://github.com/alevnyacow/domain-first-errors/commit/fe5a5f4fb449582849a6b1cb9d6fbf48e93d7743))
+
 ## [4.0.3](https://github.com/alevnyacow/domain-first-errors/compare/v4.0.2...v4.0.3) (2026-08-11)
 
 
