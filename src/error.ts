@@ -24,10 +24,17 @@ const defineErrorClass = <
     const symbol = Symbol();
 
     class DomainFirstErrorBase extends Error {
-        static matchesCode = (target: string | { code: string }) => {
+        static matchesCode = (target: unknown) => {
             const codeFromTarget =
-                typeof target === 'string' ? target : target.code;
-            if (codeFromTarget === code) {
+                typeof target === 'string'
+                    ? target
+                    : target &&
+                        typeof target === 'object' &&
+                        'code' in target &&
+                        typeof target.code === 'string'
+                      ? target.code
+                      : '';
+            if (code && codeFromTarget === code) {
                 return metadata;
             }
         };
@@ -35,6 +42,8 @@ const defineErrorClass = <
         static is = (target: unknown): target is DomainFirstErrorBase => {
             return typeof target === 'object' && !!target && symbol in target;
         };
+
+        static code = code;
 
         public readonly code: string;
         public readonly metadata: Metadata;
@@ -108,9 +117,18 @@ export const errorNamespace = (namespace: string) => {
             errorProps
         );
 
-    const matchesCode = (target: string | { code: string }) => {
-        const code = typeof target === 'string' ? target : target.code;
-        return code === namespace || code.startsWith(`${namespace}.`);
+    const matchesCode = (target: unknown) => {
+        const code =
+            typeof target === 'string'
+                ? target
+                : target &&
+                    typeof target === 'object' &&
+                    'code' in target &&
+                    typeof target.code === 'string'
+                  ? target.code
+                  : '';
+
+        return (code && code === namespace) || code.startsWith(`${namespace}.`);
     };
 
     return {
