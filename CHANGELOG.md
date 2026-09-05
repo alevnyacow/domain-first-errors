@@ -1,3 +1,10 @@
+# [4.2.0](https://github.com/alevnyacow/domain-first-errors/compare/v4.1.0...v4.2.0) (2026-09-05)
+
+
+### Features
+
+* `code` in error class, `unknown` in `matchesCode` for namespace and error ([b6eae7a](https://github.com/alevnyacow/domain-first-errors/commit/b6eae7a9472fd9b35e8789d693ba8439edab6ca6))
+
 # [4.1.0](https://github.com/alevnyacow/domain-first-errors/compare/v4.0.4...v4.1.0) (2026-09-05)
 
 
