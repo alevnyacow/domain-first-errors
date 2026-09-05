@@ -1,3 +1,10 @@
+# [4.1.0](https://github.com/alevnyacow/domain-first-errors/compare/v4.0.4...v4.1.0) (2026-09-05)
+
+
+### Features
+
+* additional keys in details ([8ea1c87](https://github.com/alevnyacow/domain-first-errors/commit/8ea1c87949e0609bc1781a832d69e91e28f23a50))
+
 ## [4.0.4](https://github.com/alevnyacow/domain-first-errors/compare/v4.0.3...v4.0.4) (2026-08-15)
 
 
