@@ -40,7 +40,9 @@ const defineErrorClass = <
         public readonly metadata: Metadata;
 
         constructor(
-            public readonly details: Details,
+            public readonly details: Details & {
+                [additionalKeys: string]: unknown;
+            },
             options?: ErrorOptions
         ) {
             super(
