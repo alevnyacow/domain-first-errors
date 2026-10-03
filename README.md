@@ -1,98 +1,76 @@
 <p align="center">
     <picture>
-        <img src='https://raw.githubusercontent.com/alevnyacow/domain-first-errors/refs/heads/main/logo.svg?sanitize=true'>
+        <img src="https://raw.githubusercontent.com/alevnyacow/domain-first-errors/refs/heads/main/logo.svg?sanitize=true" alt="Domain-First Errors">
     </picture>
 </p>
 
 <p align="center">
-    Strongly typed namespace-based domain errors that remain identifiable across application boundaries.
+    Typed errors in your code. Recognizable errors over the wire.
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/npm/v/%40domain-first%2Ferrors" alt="version">
-  <img src="https://img.shields.io/badge/TypeScript-ready-3178C6?logo=typescript&logoColor=white?style=for-the-badge" alt="size">
-  <img src="https://img.shields.io/badge/semantic--release-angular-e10079?logo=semantic-release" alt="semver">
+  <a href="https://www.npmjs.com/package/@domain-first/errors"><img src="https://img.shields.io/npm/v/%40domain-first%2Ferrors" alt="npm version"></a>
+  <img src="https://img.shields.io/badge/TypeScript-ready-3178C6?logo=typescript&logoColor=white" alt="TypeScript ready">
   <img src="https://img.shields.io/npm/l/%40domain-first%2Ferrors" alt="license">
 </p>
 
-# Installation
+Define a domain error once, attach typed details, and recognize its code across API responses, queues, and services. No custom error class boilerplate. Zero runtime dependencies.
 
-```
+- **Typed details** — autocomplete when creating errors and after narrowing with `.is()`.
+- **Namespaced codes** — organize errors by domain, like `USER.AUTH.INCORRECT_PASSWORD`.
+- **Native errors** — `instanceof`, stack traces, and `cause` work as expected.
+- **Ready for transport** — serialize to a plain object and recognize it with `.matchesCode()`.
+
+## Try it
+
+```sh
 npm i @domain-first/errors
 ```
-
-# Motivation
-
-In Domain-Driven Design, domain errors are part of the domain model, yet they are often treated as generic exceptions or untyped payloads. Serialized native `Error` objects lose their runtime identity after crossing process boundaries, making `instanceof` unusable after serialization. Domain-First Errors let you define strongly typed domain errors that remain identifiable both as runtime instances and as serialized objects.
-
-# Quick Start
 
 ```ts
 import { errorNamespace } from "@domain-first/errors";
 
-const UserErrors = errorNamespace("USER");
+const OrderErrors = errorNamespace("ORDER");
+const OutOfStock = OrderErrors.define<{ productId: string }>("OUT_OF_STOCK");
 
-const AuthErrors = UserErrors.subnamespace("AUTH");
-
-// Define an error class
-const IncorrectPasswordError = AuthErrors.define<{
-    login: string;
-}>("INCORRECT_PASSWORD");
-
-// Throw and identify it
 try {
-    throw new IncorrectPasswordError(
-        { login: "test-login" },
-        // native Error.cause support
-        { cause: 42 },
-    );
-} catch (e: unknown) {
-    /**
-       USER.AUTH.INCORRECT_PASSWORD: {"login":"test-login"}
-       ...stack
-       details: { login: 'test-login' },
-       code: 'USER.AUTH.INCORRECT_PASSWORD',
-       metadata: {},
-       [cause]: 42
-     }
-
-     */
-    console.error(e);
-
-    // if (e instanceof IncorrectPasswordError) works as well
-    if (IncorrectPasswordError.is(e)) {
-        console.log(`Incorrect password (${e.details.login})`);
+    throw new OutOfStock({ productId: "coffee-beans" });
+} catch (error: unknown) {
+    if (OutOfStock.is(error)) {
+        console.log(error.details.productId); // string, fully typed
+        console.log(error.code);              // "ORDER.OUT_OF_STOCK"
+    } else {
+        throw error;
     }
-}
-
-// Recognize a serialized error
-const error = new IncorrectPasswordError({
-    login: "test-login",
-});
-
-const serializedError = JSON.parse(JSON.stringify(error.serialized));
-
-if (IncorrectPasswordError.matchesCode(serializedError)) {
-    console.log("Incorrect password");
 }
 ```
 
-# About
+## Across application boundaries
 
-A utility for defining strongly typed namespace-based domain errors with stable identities across application boundaries. Every defined error extends the native `Error` class and supports the native `Error.cause` property.
+JSON loses class identity. The error code survives:
 
-This makes errors easy to serialize, transport between layers, and recognize. Every error class provides two ways to identify that error type:
+```ts
+const error = new OutOfStock({ productId: "coffee-beans" });
+const received: unknown = JSON.parse(JSON.stringify(error.serialized));
 
-- `is` for runtime instances (`instanceof` works as well);
-- `matchesCode` for serialized or transported errors.
+if (OutOfStock.matchesCode(received)) {
+    console.log("Offer a restock notification");
+}
 
-# Test coverage
+OrderErrors.matchesCode(received); // true for any ORDER.* error
+```
 
-Will be improved in upcoming versions.
+`.is()` narrows runtime instances. `.matchesCode()` checks a code string or an object's `code`; it does not validate the payload or narrow its details. On an error class, it returns the class's metadata on a match, or `undefined` otherwise.
 
-| Type       | Threshold | Current value |
-| ---------- | --------- | ------------- |
-| Statements | 80 %      | 83.05 %       |
-| Branches   | 60 %      | 64.1 %        |
-| Functions  | 85 %      | 85.71 %       |
-| Lines      | 80 %      | 82.14 %       |
+`.serialized` includes `code`, `name`, `message`, `details`, and `metadata`. Nested details become flat, dot-separated keys; stack and cause are omitted.
+
+## A little more when you need it
+
+| Need | Use |
+| --- | --- |
+| Nested namespaces | `OrderErrors.subnamespace("PAYMENT")` → `ORDER.PAYMENT.*` |
+| Static metadata | `OrderErrors.defineWithMetadata("OUT_OF_STOCK", { retryable: false })` |
+| Custom messages | `OrderErrors.define<{ productId: string }>("OUT_OF_STOCK", { message: ({ details }) => details.productId + " is sold out" })` |
+| Original cause | `new OutOfStock({ productId: "coffee-beans" }, { cause: originalError })` |
+
+ESM and CommonJS supported. [MIT licensed](./LICENSE).
