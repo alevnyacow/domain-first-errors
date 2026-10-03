@@ -1,3 +1,10 @@
+## [4.2.1](https://github.com/alevnyacow/domain-first-errors/compare/v4.2.0...v4.2.1) (2026-10-03)
+
+
+### Bug Fixes
+
+* readme refactoring ([50d0f0f](https://github.com/alevnyacow/domain-first-errors/commit/50d0f0ff8522c9116f4959b790de059787398721))
+
 # [4.2.0](https://github.com/alevnyacow/domain-first-errors/compare/v4.1.0...v4.2.0) (2026-09-05)
 
 
