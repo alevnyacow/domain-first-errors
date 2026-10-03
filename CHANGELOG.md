@@ -1,3 +1,10 @@
+## [4.2.2](https://github.com/alevnyacow/domain-first-errors/compare/v4.2.1...v4.2.2) (2026-10-03)
+
+
+### Bug Fixes
+
+* readme formatting ([1db974e](https://github.com/alevnyacow/domain-first-errors/commit/1db974e1d2b124c6bff2e8cb859045e551704f60))
+
 ## [4.2.1](https://github.com/alevnyacow/domain-first-errors/compare/v4.2.0...v4.2.1) (2026-10-03)
 
 
