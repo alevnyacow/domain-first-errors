@@ -31,14 +31,18 @@ npm i @domain-first/errors
 import { errorNamespace } from "@domain-first/errors";
 
 const OrderErrors = errorNamespace("ORDER");
-const OutOfStock = OrderErrors.define<{ productId: string }>("OUT_OF_STOCK");
+const OutOfStock = OrderErrors.define<{ productId: string }>(
+    "OUT_OF_STOCK",
+);
 
 try {
     throw new OutOfStock({ productId: "coffee-beans" });
 } catch (error: unknown) {
     if (OutOfStock.is(error)) {
-        console.log(error.details.productId); // string, fully typed
-        console.log(error.code);              // "ORDER.OUT_OF_STOCK"
+        // string, fully typed
+        console.log(error.details.productId);
+        // "ORDER.OUT_OF_STOCK"
+        console.log(error.code);
     } else {
         throw error;
     }
@@ -51,7 +55,9 @@ JSON loses class identity. The error code survives:
 
 ```ts
 const error = new OutOfStock({ productId: "coffee-beans" });
-const received: unknown = JSON.parse(JSON.stringify(error.serialized));
+const received: unknown = JSON.parse(
+    JSON.stringify(error.serialized),
+);
 
 if (OutOfStock.matchesCode(received)) {
     console.log("Offer a restock notification");
@@ -66,11 +72,11 @@ OrderErrors.matchesCode(received); // true for any ORDER.* error
 
 ## A little more when you need it
 
-| Need | Use |
-| --- | --- |
-| Nested namespaces | `OrderErrors.subnamespace("PAYMENT")` → `ORDER.PAYMENT.*` |
-| Static metadata | `OrderErrors.defineWithMetadata("OUT_OF_STOCK", { retryable: false })` |
-| Custom messages | `OrderErrors.define<{ productId: string }>("OUT_OF_STOCK", { message: ({ details }) => details.productId + " is sold out" })` |
-| Original cause | `new OutOfStock({ productId: "coffee-beans" }, { cause: originalError })` |
+| Need              | Use                                                                                                                           |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| Nested namespaces | `OrderErrors.subnamespace("PAYMENT")` → `ORDER.PAYMENT.*`                                                                     |
+| Static metadata   | `OrderErrors.defineWithMetadata("OUT_OF_STOCK", { retryable: false })`                                                        |
+| Custom messages   | `OrderErrors.define<{ productId: string }>("OUT_OF_STOCK", { message: ({ details }) => details.productId + " is sold out" })` |
+| Original cause    | `new OutOfStock({ productId: "coffee-beans" }, { cause: originalError })`                                                     |
 
 ESM and CommonJS supported. [MIT licensed](./LICENSE).
