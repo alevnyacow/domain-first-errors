@@ -24,7 +24,8 @@ const defineErrorClass = <
     const symbol = Symbol();
 
     class DomainFirstErrorBase extends Error {
-        static matchesCode = (target: unknown) => {
+        // a method rather than an arrow property: declaration emit drops generics from static arrow properties
+        static matchesCode(target: unknown): Metadata | undefined {
             const codeFromTarget =
                 typeof target === 'string'
                     ? target
@@ -37,7 +38,7 @@ const defineErrorClass = <
             if (code && codeFromTarget === code) {
                 return metadata;
             }
-        };
+        }
 
         static is<T extends abstract new (...args: any[]) => any>(
             this: T,

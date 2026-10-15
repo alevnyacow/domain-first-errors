@@ -1,82 +1,143 @@
-<p align="center">
-    <picture>
-        <img src="https://raw.githubusercontent.com/alevnyacow/domain-first-errors/refs/heads/main/logo.svg?sanitize=true" alt="Domain-First Errors">
-    </picture>
+# Domain First Errors
+
+<p>
+    <img src="https://img.shields.io/npm/v/%40domain-first%2Ferrors" alt="version">
+    <img src="https://img.shields.io/badge/TypeScript-ready-3178C6?logo=typescript&logoColor=white?style=for-the-badge" alt="TypeScript ready">
+    <img src="https://img.shields.io/badge/semantic--release-angular-e10079?logo=semantic-release" alt="semver">
+    <img src="https://img.shields.io/npm/l/%40domain-first%2Ferrors" alt="license">
 </p>
 
-<p align="center">
-    Typed errors in your code. Recognizable errors over the wire.
-</p>
+Typed errors in your code. Recognizable errors over the wire.
 
-<p align="center">
-  <a href="https://www.npmjs.com/package/@domain-first/errors"><img src="https://img.shields.io/npm/v/%40domain-first%2Ferrors" alt="npm version"></a>
-  <img src="https://img.shields.io/badge/TypeScript-ready-3178C6?logo=typescript&logoColor=white" alt="TypeScript ready">
-  <img src="https://img.shields.io/npm/l/%40domain-first%2Ferrors" alt="license">
-</p>
+## What is it?
 
-Define a domain error once, attach typed details, and recognize its code across API responses, queues, and services. No custom error class boilerplate. Zero runtime dependencies.
+In most TypeScript codebases errors are `new Error("something went wrong")`. The catch block gets `unknown`, the useful data is glued into a message string, and once the error crosses an HTTP response or a queue, nobody can tell which error it was.
 
-- **Typed details** — autocomplete when creating errors and after narrowing with `.is()`.
-- **Namespaced codes** — organize errors by domain, like `USER.AUTH.INCORRECT_PASSWORD`.
-- **Native errors** — `instanceof`, stack traces, and `cause` work as expected.
-- **Ready for transport** — serialize to a plain object and recognize it with `.matchesCode()`.
+Domain First Errors gives every error **a namespaced code and typed details**. One line defines an error class: it extends `Error`, narrows with `.is()` to its typed details, and serializes to a plain object whose code is recognized on the other side with `.matchesCode()`. No custom error class boilerplate, zero runtime dependencies.
 
-## Try it
-
-```sh
+```
 npm i @domain-first/errors
 ```
+
+## API
+
+The full technical specification lives in [API.md](./API.md).
+
+## Guide
+
+### How to declare
+
+Create a namespace and define errors in it. The type argument describes the details.
 
 ```ts
 import { errorNamespace } from "@domain-first/errors";
 
 const OrderErrors = errorNamespace("ORDER");
-const OutOfStock = OrderErrors.define<{ productId: string }>(
-    "OUT_OF_STOCK",
-);
 
+const OutOfStock = OrderErrors.define<{ productId: string }>("OUT_OF_STOCK");
+
+OutOfStock.code; // "ORDER.OUT_OF_STOCK"
+```
+
+### How to throw
+
+Errors are regular classes extending `Error`. Pass details and, optionally, a native `cause`.
+
+```ts
+throw new OutOfStock({ productId: "coffee-beans" });
+
+throw new OutOfStock({ productId: "coffee-beans" }, { cause: originalError });
+```
+
+### How to catch
+
+`.is()` narrows `unknown` to the error class with fully typed details.
+
+```ts
 try {
-    throw new OutOfStock({ productId: "coffee-beans" });
+    reserve(order);
 } catch (error: unknown) {
     if (OutOfStock.is(error)) {
-        // string, fully typed
-        console.log(error.details.productId);
-        // "ORDER.OUT_OF_STOCK"
-        console.log(error.code);
+        error.details.productId; // string
+        error.code; // "ORDER.OUT_OF_STOCK"
     } else {
         throw error;
     }
 }
 ```
 
-## Across application boundaries
+### How to add behavior
 
-JSON loses class identity. The error code survives:
+Extend the defined class. `.is()` narrows to the subclass.
 
 ```ts
-const error = new OutOfStock({ productId: "coffee-beans" });
-const received: unknown = JSON.parse(
-    JSON.stringify(error.serialized),
-);
-
-if (OutOfStock.matchesCode(received)) {
-    console.log("Offer a restock notification");
+class OutOfStock extends OrderErrors.define<{ productId: string }>("OUT_OF_STOCK") {
+    get userMessage() {
+        return `${this.details.productId} is sold out`;
+    }
 }
 
-OrderErrors.matchesCode(received); // true for any ORDER.* error
+if (OutOfStock.is(error)) {
+    error.userMessage;
+}
 ```
 
-`.is()` narrows runtime instances. `.matchesCode()` checks a code string or an object's `code`; it does not validate the payload or narrow its details. On an error class, it returns the class's metadata on a match, or `undefined` otherwise.
+### How to organize codes
 
-`.serialized` includes `code`, `name`, `message`, `details`, and `metadata`. Nested details become flat, dot-separated keys; stack and cause are omitted.
+Nest namespaces. Each level adds a dot-separated segment.
 
-## A little more when you need it
+```ts
+const PaymentErrors = OrderErrors.subnamespace("PAYMENT");
+const Declined = PaymentErrors.define("DECLINED");
 
-| Need              | Use                                                                                                                           |
-| ----------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| Nested namespaces | `OrderErrors.subnamespace("PAYMENT")` → `ORDER.PAYMENT.*`                                                                     |
-| Static metadata   | `OrderErrors.defineWithMetadata("OUT_OF_STOCK", { retryable: false })`                                                        |
-| Custom messages   | `OrderErrors.define<{ productId: string }>("OUT_OF_STOCK", { message: ({ details }) => details.productId + " is sold out" })` |
-| Original cause    | `new OutOfStock({ productId: "coffee-beans" }, { cause: originalError })`                                                     |
+Declined.code; // "ORDER.PAYMENT.DECLINED"
+```
 
-ESM and CommonJS supported. [MIT licensed](./LICENSE).
+### How to attach metadata
+
+Static metadata is shared by every instance of the class: HTTP status, retryability, severity.
+
+```ts
+const PaymentDeclined = PaymentErrors.defineWithMetadata("DECLINED", {
+    status: 402,
+    retryable: false,
+});
+
+new PaymentDeclined({}).metadata.status; // 402
+```
+
+### How to send across boundaries
+
+JSON loses class identity. The code survives: send `.serialized` and recognize it with `.matchesCode()`.
+
+```ts
+// server
+res.status(error.metadata.status).json(error.serialized);
+// { code, name, message, details, metadata }
+
+// client
+const received: unknown = await response.json();
+
+if (PaymentDeclined.matchesCode(received)) {
+    showRetryForm(); // returns the class metadata on a match
+}
+
+OrderErrors.matchesCode(received); // true for any ORDER.* code
+```
+
+Nested details are flattened into dot-separated keys. Stack and cause are not serialized.
+
+### How to customize name and message
+
+By default the name is the code and the message is the JSON of the details.
+
+```ts
+const OutOfStock = OrderErrors.define<{ productId: string }>("OUT_OF_STOCK", {
+    name: () => "OutOfStockError",
+    message: ({ details }) => `${details.productId} is sold out`,
+});
+```
+
+## License
+
+MIT
