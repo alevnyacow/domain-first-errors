@@ -39,9 +39,17 @@ const defineErrorClass = <
             }
         };
 
-        static is = (target: unknown): target is DomainFirstErrorBase => {
-            return typeof target === 'object' && !!target && symbol in target;
-        };
+        static is<T extends abstract new (...args: any[]) => any>(
+            this: T,
+            target: unknown
+        ): target is InstanceType<T> {
+            if (typeof target !== 'object' || !target || !(symbol in target)) {
+                return false;
+            }
+            // `this` is the calling (sub)class; it is missing when `is` is called detached (e.g. `errors.filter(Error.is)`)
+            // biome-ignore lint/complexity/noThisInStatic: `this` must be the subclass `is` was called on
+            return typeof this !== 'function' || target instanceof this;
+        }
 
         static code = code;
 

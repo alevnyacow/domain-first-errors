@@ -70,3 +70,29 @@ test('README', () => {
         expect(true).toBe(true);
     }
 });
+
+test('is() narrows to the concrete error class', () => {
+    class AccountLockedError extends UserAuth.define<{ login: string }>(
+        'ACCOUNT_LOCKED'
+    ) {
+        readonly retryAfter = 60;
+    }
+    const BaseLockedError = Object.getPrototypeOf(AccountLockedError);
+
+    const error: unknown = new AccountLockedError({ login: 'test-login' });
+
+    if (AccountLockedError.is(error)) {
+        const retryAfter: number = error.retryAfter;
+        const login: string = error.details.login;
+        expect(retryAfter).toBe(60);
+        expect(login).toBe('test-login');
+    } else {
+        throw new Error('expected AccountLockedError');
+    }
+
+    expect(AccountLockedError.is(new BaseLockedError({ login: '' }))).toBe(
+        false
+    );
+    expect(BaseLockedError.is(error)).toBe(true);
+    expect([error, new Error()].filter(AccountLockedError.is)).toEqual([error]);
+});
