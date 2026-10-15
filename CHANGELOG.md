@@ -1,3 +1,10 @@
+## [4.2.3](https://github.com/alevnyacow/domain-first-errors/compare/v4.2.2...v4.2.3) (2026-10-15)
+
+
+### Bug Fixes
+
+* subclass narrowing on `is` ([e2d6811](https://github.com/alevnyacow/domain-first-errors/commit/e2d68117ccf113ff74d1143849a869bf53b1c0c8))
+
 ## [4.2.2](https://github.com/alevnyacow/domain-first-errors/compare/v4.2.1...v4.2.2) (2026-10-03)
 
 
